@@ -16,11 +16,11 @@ static
 extern
 bool
 SetWindowPos(
-	[In,  MarshalAs(UnmanagedType.U2)] IntPtr hWnd, 
-	[In,  MarshalAs(UnmanagedType.U2)] IntPtr hWndInsertAfter,
+	[In] IntPtr hWnd, 
+	[In] IntPtr hWndInsertAfter,
 	[In] int x,  [In] int y, 
 	[In] int cx, [In] int cy, 
-	[In,  MarshalAs(UnmanagedType.U2)] uint uFlags
+	[In] uint uFlags
 );
 
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms633539(v=vs.85).aspx
@@ -31,7 +31,7 @@ static
 extern
 bool
 SetForegroundWindow(
-	[In,  MarshalAs(UnmanagedType.U2)] IntPtr hWnd
+	[In] IntPtr hWnd
 );
 	
 } 
