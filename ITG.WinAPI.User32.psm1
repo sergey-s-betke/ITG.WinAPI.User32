@@ -98,3 +98,102 @@ class Window {
 }
 
 "@;
+
+function Set-WindowZOrder {
+	<#
+		.Synopsis
+		    Устанавливает положение окна по оси Z.
+		.Description
+		    Устанавливает положение окна по оси Z.
+            Обёртка для API SetWindowPos.
+		.Example
+			$ie.HWND | Set-WindowZOrder -PassThru | Set-WindowForeground
+	#>
+    [CmdletBinding(
+    )]
+	
+    param (
+        # дескриптор окна
+        [Parameter(
+			Mandatory=$true,
+			Position=0,
+			ValueFromPipeline=$true,
+			ValueFromPipelineByPropertyName=$true
+		)]
+        [System.IntPtr]$HWnd 
+	,
+		# желаемое положение окна по оси Z
+        [Parameter(
+			Mandatory=$true,
+			Position=1
+		)]
+        [ITG.WinAPI.User32.HWND] $ZOrder 
+	,
+        [switch]
+        $PassThru 
+	)
+
+    process {
+        try { 
+			$Wnd = [ITG.WinAPI.User32.Window] ( $HWnd );
+			$Wnd.ZOrder = $ZOrder;
+			if ( $PassThru ) {
+				$input;
+			};
+        } catch [Exception] {
+            Write-Error `
+                -Exception $_.Exception `
+                -Message "Возникла ошибка при изменении Z порядка окон." `
+            ;
+        };
+	}
+}  
+
+
+function Set-WindowForeground {
+	<#
+		.Synopsis
+		    Устанавливает фокус ввода на окно.
+		.Description
+		    Устанавливает фокус ввода на окно.
+            Обёртка для API SetForegroundWindow.
+		.Example
+			$ie.HWND | Set-WindowZOrder -PassThru | Set-WindowForeground
+	#>
+    [CmdletBinding(
+    )]
+	
+    param (
+        # дескриптор окна
+        [Parameter(
+			Mandatory=$true,
+			Position=0,
+			ValueFromPipeline=$true,
+			ValueFromPipelineByPropertyName=$true
+		)]
+        [System.IntPtr]$HWnd 
+	,
+        [switch]
+        $PassThru 
+	)
+
+    process {
+        try { 
+			$Wnd = [ITG.WinAPI.User32.Window] ( $HWnd );
+			$Wnd.SetForeground();
+			if ( $PassThru ) {
+				$input;
+			};
+        } catch [Exception] {
+            Write-Error `
+                -Exception $_.Exception `
+                -Message "Возникла ошибка при попытке передачи фокуса ввода." `
+            ;
+        };
+	}
+};  
+
+Export-ModuleMember `
+    Set-WindowZOrder `
+    , Set-WindowForeground `
+;
