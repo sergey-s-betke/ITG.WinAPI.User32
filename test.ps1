@@ -6,8 +6,9 @@ param ()
 
 Import-Module `
 	(Join-Path `
-        -Path ( ( [System.IO.FileInfo] ( $MyInvocation.MyCommand.Path ) ).Directory ) `
-        -ChildPath 'ITG.WinAPI' `
+        -Path ( Split-Path -Path ( $MyInvocation.MyCommand.Path ) ) `
+        -ChildPath 'ITG.WinAPI.User32' `
     ) `
 	-Force `
-;
+	-PassThru `
+| Get-Readme -OutDefaultFile;
